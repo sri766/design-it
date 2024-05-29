@@ -70,7 +70,8 @@ const Cart = () => {
                                 className="relative mb-4 h-60 w-60 text-muted-foreground">
                                 <Image
                                 src='/hippo-empty-cart.png'
-                                layout="fill"
+                                width={200}
+                                height={200}
                                 className="object-cover object-center"
                                 alt="empty shopping cart"
                                 />

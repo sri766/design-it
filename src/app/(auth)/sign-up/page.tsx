@@ -1,11 +1,32 @@
+"use client"
 import { Icons } from "@/components/Icons"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import { Label } from "@radix-ui/react-label"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { AuthCredentialsValidator, TAuthCredentialsValidator } from "@/lib/validator/account-credentials-validator"
+import { trpc } from "@/trpc/client"
+
 
 const Page = () =>{
+    
+    const {register, handleSubmit, formState: {errors}} = useForm<TAuthCredentialsValidator>({
+        resolver: zodResolver(AuthCredentialsValidator)
+    })
+
+    const {mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
+        
+    })
+
+    const onSubmit= ({ email, password }:TAuthCredentialsValidator) => {
+        mutate({ email, password });
+    };
+
+
     return (
         <>
             <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
@@ -22,14 +43,35 @@ const Page = () =>{
                             <ArrowRight className="h-4 w-4" />
                         </Link>
                     </div>
-                    <div className="grid gap-6">
-                        <form>
+                    <div className="grid gap-6 w-full justify-center">
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="grid gap-2">
                                 <div className="grid gap-1 py-2">
                                     <Label htmlFor="email">Email:</Label>
-                                    <Input type="email" id="email" placeholder="Email Address" />
+                                    <Input
+                                    {...register("email")}
+                                    type="email"
+                                    placeholder="your@example.com" 
+                                    className={cn({
+                                        "focus-visible: ring-red-500": true
+                                    })}/>
                                 </div>
                             </div>
+                            <div className="grid gap-2">
+                                <div className="grid gap-1 py-2">
+                                    <Label htmlFor="password">Password:</Label>
+                                    <Input 
+                                    {...register("password")}
+                                    type="password"
+                                    placeholder="********" 
+                                    className={cn({
+                                        "focus-visible: ring-red-500": true
+                                    })}/>
+                                </div>
+                            </div>
+                            <Button className="w-full">
+                                Sign-Up
+                            </Button>
                         </form>
                     </div>
                     
