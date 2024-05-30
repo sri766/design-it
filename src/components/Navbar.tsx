@@ -12,6 +12,7 @@ const Navbar = async () => {
   const nextCookies = cookies()
   const {user} = await getServerSideUser(nextCookies);
   
+  console.log({user});
   
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16 ">
@@ -42,7 +43,7 @@ const Navbar = async () => {
                         )}
 
                         {user? (
-                          <UserAccountNav />
+                          <UserAccountNav user={user} />
                         ):(
                           <Link href="/sign-up" className={buttonVariants({variant: "ghost"})}>Create Account</Link>
                         )}

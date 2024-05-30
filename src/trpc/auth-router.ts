@@ -55,16 +55,24 @@ export const authRouter = router({
         const {email, password} = input
         const { res } = ctx
         const payload = await getPayloadClient();
-        try {   
-            await payload.login({
+    
+        try {
+            const loginResponse = await payload.login({
                 collection: 'users',
                 data:{
                     email,
                     password
                 },
-            })
+            });
+    
+            const token = loginResponse.token;
+
+            res.setHeader('Set-Cookie', `payload-token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax`);
+    
+            return { success: true };
         } catch (err) {
-            throw new TRPCError({code: "UNAUTHORIZED"})
+            throw new TRPCError({code: "UNAUTHORIZED"});
         }
     })
+    
 })
