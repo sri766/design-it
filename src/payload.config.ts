@@ -22,7 +22,7 @@ export default buildConfig({
         user: "users",
         bundler: webpackBundler(),
         meta: {
-            titleSuffix: "-DesignIT",
+            titleSuffix: "| DesignIT",
             favicon: "/favicon.ico",
             ogImage: "/thumbnail.png",
         }
