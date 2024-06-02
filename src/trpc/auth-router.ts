@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 export const authRouter = router({
     createPayloadUser: publicProcedure.input(AuthCredentialsValidator)
-        .mutation(async ({ input }) => {
+        .mutation(async ({ input }) => {AuthCredentialsValidator
             const { email, password } = input
 
             const payload = await getPayloadClient()
